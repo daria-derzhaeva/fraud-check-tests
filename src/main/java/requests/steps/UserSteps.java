@@ -8,6 +8,7 @@ import models.DepositMoneyRequest;
 import models.TransferMoneyRequest;
 import models.UpdateProfileNameRequest;
 import models.UpdateProfileNameResponse;
+import models.TransferWithFraudCheckResponse;
 import requests.skelethon.CrudRequester;
 import requests.skelethon.Endpoint;
 import requests.skelethon.HttpRequest;
@@ -34,8 +35,8 @@ public class UserSteps {
 
     public void depositMoney(long accountId, double amount) {
         DepositMoneyRequest request = DepositMoneyRequest.builder()
-                .id(accountId)
-                .balance(amount)
+                .accountId(accountId)
+                .amount(amount)
                 .build();
 
         depositRequesterWithOkResponse()
@@ -44,8 +45,8 @@ public class UserSteps {
 
     public ValidatableResponse depositMoneyWithCustomResponse(long accountId, double amount) {
         DepositMoneyRequest request = DepositMoneyRequest.builder()
-                .id(accountId)
-                .balance(amount)
+                .accountId(accountId)
+                .amount(amount)
                 .build();
 
         return depositRequesterWithoutStatusCode()
@@ -54,8 +55,8 @@ public class UserSteps {
 
     public ValidatableResponse depositMoneyWithBadRequest(long accountId, double amount) {
         DepositMoneyRequest request = DepositMoneyRequest.builder()
-                .id(accountId)
-                .balance(amount)
+                .accountId(accountId)
+                .amount(amount)
                 .build();
 
         return depositRequesterWithBadRequestResponse()
@@ -99,6 +100,34 @@ public class UserSteps {
 
         return transferRequesterWithoutStatusCode()
                 .create(Endpoint.TRANSFER, request);
+    }
+
+    public TransferWithFraudCheckResponse transferMoneyWithFraudCheck(long senderAccountId,
+                                                                      long receiverAccountId,
+                                                                      double amount) {
+        TransferMoneyRequest request = TransferMoneyRequest.builder()
+                .senderAccountId(senderAccountId)
+                .receiverAccountId(receiverAccountId)
+                .amount(amount)
+                .build();
+
+        return transferRequesterWithOkResponse()
+                .create(Endpoint.TRANSFER_WITH_FRAUD_CHECK, request)
+                .extract()
+                .as(TransferWithFraudCheckResponse.class);
+    }
+
+    public ValidatableResponse transferMoneyWithFraudCheckCustomResponse(long senderAccountId,
+                                                                         long receiverAccountId,
+                                                                         double amount) {
+        TransferMoneyRequest request = TransferMoneyRequest.builder()
+                .senderAccountId(senderAccountId)
+                .receiverAccountId(receiverAccountId)
+                .amount(amount)
+                .build();
+
+        return transferRequesterWithoutStatusCode()
+                .create(Endpoint.TRANSFER_WITH_FRAUD_CHECK, request);
     }
 
     public UpdateProfileNameResponse updateProfileName(String name) {

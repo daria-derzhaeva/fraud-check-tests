@@ -4,7 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7eac7abd-c545-4877-a8b2-2d1f2c503bc8" name="Changes" comment="Add DB checks" />
+    <list default="true" id="7eac7abd-c545-4877-a8b2-2d1f2c503bc8" name="Changes" comment="Add DB checks">
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/TransferWithFraudCheckResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/annotations/FraudCheckMock.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/extensions/FraudCheckWireMockExtension.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/iteration2/api/TransferWithFraudCheckTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/DepositMoneyRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/DepositMoneyRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/requests/skelethon/Endpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/requests/skelethon/Endpoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/requests/steps/UserSteps.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/requests/steps/UserSteps.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -23,7 +34,7 @@
         <entry key="$PROJECT_DIR$/NBank-UI" value="main" />
       </map>
     </option>
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/NBank-UI" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -33,7 +44,7 @@
 }</component>
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
-    "url": "https://github.com/daria-derzhaeva/data-base.git",
+    "url": "https://github.com/daria-derzhaeva/fraud-check-tests",
     "accountId": "cb59a480-e031-4e72-bb68-dbada338be45"
   }
 }]]></component>
@@ -77,10 +88,10 @@
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "hometask/data-base",
+    "git-widget-placeholder": "hometask/fraud-check",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/dariaderzhaeva/IdeaProjects/database-tests",
+    "last_opened_file_path": "/Users/dariaderzhaeva/IdeaProjects/fraud-check-tests",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -209,6 +220,7 @@
       <workItem from="1779892134057" duration="25000" />
       <workItem from="1779895101536" duration="11243000" />
       <workItem from="1779910013778" duration="5014000" />
+      <workItem from="1779984918991" duration="5286000" />
     </task>
     <servers />
   </component>
