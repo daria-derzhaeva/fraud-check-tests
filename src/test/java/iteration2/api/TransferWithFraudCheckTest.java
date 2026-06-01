@@ -5,6 +5,7 @@ import database.dao.AccountDao;
 import generators.TestConstants;
 import iteration2.api.fixtures.FraudTransferFixture;
 import models.AccountResponse;
+import models.FraudTransferStatus;
 import models.TransferWithFraudCheckResponse;
 import models.comparison.ModelAssertions;
 import org.junit.jupiter.api.Test;
@@ -40,7 +41,15 @@ public class TransferWithFraudCheckTest extends BaseTest {
         AccountDao senderAfterTransfer = databaseSteps.getAccountById(fixture.getSenderAccount().getId());
         AccountDao receiverAfterTransfer = databaseSteps.getAccountById(fixture.getReceiverAccount().getId());
 
-        assertApprovedResponse(response, fixture, transferAmount, "Low risk transaction", 0.2, false);
+        assertApprovedResponse(
+                response,
+                fixture,
+                transferAmount,
+                TestConstants.LOW_RISK_TRANSACTION_REASON,
+                TestConstants.LOW_FRAUD_RISK_SCORE,
+                false
+        );
+
         assertBalancesChanged(senderAfterTransfer, receiverAfterTransfer, fixture, transferAmount);
     }
 
@@ -69,15 +78,15 @@ public class TransferWithFraudCheckTest extends BaseTest {
         AccountDao senderAfterTransfer = databaseSteps.getAccountById(fixture.getSenderAccount().getId());
         AccountDao receiverAfterTransfer = databaseSteps.getAccountById(fixture.getReceiverAccount().getId());
 
-        ModelAssertions.assertFieldEquals(softly, response.getStatus(), "MANUAL_REVIEW_REQUIRED");
-        ModelAssertions.assertFieldEquals(softly, response.getMessage(), "Transfer requires manual review");
-        ModelAssertions.assertFieldEquals(softly, response.getFraudReason(), "High risk transaction");
-        ModelAssertions.assertFieldEquals(softly, response.isRequiresManualReview(), false);
-        ModelAssertions.assertFieldEquals(softly, response.isRequiresVerification(), false);
-        ModelAssertions.assertFieldEquals(softly, response.getSenderAccountId(), fixture.getSenderAccount().getId());
-        ModelAssertions.assertFieldEquals(softly, response.getReceiverAccountId(), fixture.getReceiverAccount().getId());
-        ModelAssertions.assertBalanceEquals(softly, response.getAmount(), transferAmount);
-        ModelAssertions.assertBalanceEquals(softly, response.getFraudRiskScore(), 0.95);
+        assertManualReviewResponse(
+                response,
+                fixture,
+                transferAmount,
+                TestConstants.HIGH_RISK_TRANSACTION_REASON,
+                TestConstants.HIGH_FRAUD_RISK_SCORE,
+                false,
+                false
+        );
 
         assertBalancesNotChanged(senderAfterTransfer, receiverAfterTransfer, fixture);
     }
@@ -107,7 +116,15 @@ public class TransferWithFraudCheckTest extends BaseTest {
         AccountDao senderAfterTransfer = databaseSteps.getAccountById(fixture.getSenderAccount().getId());
         AccountDao receiverAfterTransfer = databaseSteps.getAccountById(fixture.getReceiverAccount().getId());
 
-        assertApprovedResponse(response, fixture, transferAmount, "Additional verification required", 0.4, true);
+        assertApprovedResponse(
+                response,
+                fixture,
+                transferAmount,
+                TestConstants.ADDITIONAL_VERIFICATION_REQUIRED_REASON,
+                TestConstants.MEDIUM_FRAUD_RISK_SCORE,
+                true
+        );
+
         assertBalancesChanged(senderAfterTransfer, receiverAfterTransfer, fixture, transferAmount);
     }
 
@@ -264,10 +281,44 @@ public class TransferWithFraudCheckTest extends BaseTest {
                                         String fraudReason,
                                         double fraudRiskScore,
                                         boolean requiresVerification) {
-        ModelAssertions.assertFieldEquals(softly, response.getStatus(), "APPROVED");
-        ModelAssertions.assertFieldEquals(softly, response.getMessage(), "Transfer approved and processed immediately");
+        ModelAssertions.assertFieldEquals(
+                softly,
+                response.getStatus(),
+                FraudTransferStatus.APPROVED.name()
+        );
+        ModelAssertions.assertFieldEquals(
+                softly,
+                response.getMessage(),
+                TestConstants.TRANSFER_APPROVED_MESSAGE
+        );
         ModelAssertions.assertFieldEquals(softly, response.getFraudReason(), fraudReason);
         ModelAssertions.assertFieldEquals(softly, response.isRequiresManualReview(), false);
+        ModelAssertions.assertFieldEquals(softly, response.isRequiresVerification(), requiresVerification);
+        ModelAssertions.assertFieldEquals(softly, response.getSenderAccountId(), fixture.getSenderAccount().getId());
+        ModelAssertions.assertFieldEquals(softly, response.getReceiverAccountId(), fixture.getReceiverAccount().getId());
+        ModelAssertions.assertBalanceEquals(softly, response.getAmount(), transferAmount);
+        ModelAssertions.assertBalanceEquals(softly, response.getFraudRiskScore(), fraudRiskScore);
+    }
+
+    private void assertManualReviewResponse(TransferWithFraudCheckResponse response,
+                                            FraudTransferFixture fixture,
+                                            double transferAmount,
+                                            String fraudReason,
+                                            double fraudRiskScore,
+                                            boolean requiresManualReview,
+                                            boolean requiresVerification) {
+        ModelAssertions.assertFieldEquals(
+                softly,
+                response.getStatus(),
+                FraudTransferStatus.MANUAL_REVIEW_REQUIRED.name()
+        );
+        ModelAssertions.assertFieldEquals(
+                softly,
+                response.getMessage(),
+                TestConstants.TRANSFER_REQUIRES_MANUAL_REVIEW_MESSAGE
+        );
+        ModelAssertions.assertFieldEquals(softly, response.getFraudReason(), fraudReason);
+        ModelAssertions.assertFieldEquals(softly, response.isRequiresManualReview(), requiresManualReview);
         ModelAssertions.assertFieldEquals(softly, response.isRequiresVerification(), requiresVerification);
         ModelAssertions.assertFieldEquals(softly, response.getSenderAccountId(), fixture.getSenderAccount().getId());
         ModelAssertions.assertFieldEquals(softly, response.getReceiverAccountId(), fixture.getReceiverAccount().getId());

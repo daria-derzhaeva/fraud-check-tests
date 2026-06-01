@@ -15,6 +15,17 @@ public class TestConstants {
     public static final double SMALL_DEPOSIT_AMOUNT = 100.00;
     public static final double MORE_THAN_BALANCE_TRANSFER_AMOUNT = 1000.00;
 
+    public static final double LOW_FRAUD_RISK_SCORE = 0.2;
+    public static final double MEDIUM_FRAUD_RISK_SCORE = 0.4;
+    public static final double HIGH_FRAUD_RISK_SCORE = 0.95;
+
+    public static final String LOW_RISK_TRANSACTION_REASON = "Low risk transaction";
+    public static final String HIGH_RISK_TRANSACTION_REASON = "High risk transaction";
+    public static final String ADDITIONAL_VERIFICATION_REQUIRED_REASON = "Additional verification required";
+
+    public static final String TRANSFER_APPROVED_MESSAGE = "Transfer approved and processed immediately";
+    public static final String TRANSFER_REQUIRES_MANUAL_REVIEW_MESSAGE = "Transfer requires manual review";
+
     private TestConstants() {
     }
 }

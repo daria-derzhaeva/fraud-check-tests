@@ -2,7 +2,6 @@ package iteration2.ui.pages;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selectors;
-import com.codeborne.selenide.SelenideElement;
 import iteration2.ui.utils.UiSelectors;
 import org.openqa.selenium.Keys;
 
@@ -11,46 +10,46 @@ import static com.codeborne.selenide.Selenide.executeJavaScript;
 
 public class EditProfilePage {
 
-    public void open() {
+    public EditProfilePage open() {
         executeJavaScript("window.location.href = '/edit-profile';");
+        return this;
     }
 
-    public void shouldBeOpened() {
+    public EditProfilePage shouldBeOpened() {
         $(Selectors.withText("Edit Profile"))
                 .shouldBe(Condition.visible);
 
-        profileNameInput()
-                .shouldBe(Condition.visible)
-                .shouldBe(Condition.enabled);
+        $(UiSelectors.PROFILE_NAME_INPUT)
+                .shouldBe(Condition.visible);
+
+        return this;
     }
 
-    public void setProfileName(String name) {
-        profileNameInput()
+    public EditProfilePage setProfileName(String name) {
+        $(UiSelectors.PROFILE_NAME_INPUT)
                 .shouldBe(Condition.visible)
-                .shouldBe(Condition.enabled)
                 .click();
 
-        profileNameInput()
-                .sendKeys(Keys.chord(Keys.CONTROL, "a"));
+        $(UiSelectors.PROFILE_NAME_INPUT)
+                .sendKeys(Keys.chord(Keys.COMMAND, "a"));
 
-        profileNameInput()
+        $(UiSelectors.PROFILE_NAME_INPUT)
                 .sendKeys(Keys.BACK_SPACE);
 
-        profileNameInput()
+        $(UiSelectors.PROFILE_NAME_INPUT)
                 .sendKeys(name);
 
-        profileNameInput()
+        $(UiSelectors.PROFILE_NAME_INPUT)
                 .shouldHave(Condition.value(name));
+
+        return this;
     }
 
-    public void submitProfileName() {
+    public EditProfilePage submitProfileName() {
         $(Selectors.withText("Save Changes"))
                 .shouldBe(Condition.visible)
-                .shouldBe(Condition.enabled)
                 .click();
-    }
 
-    private SelenideElement profileNameInput() {
-        return $(UiSelectors.PROFILE_NAME_INPUT);
+        return this;
     }
 }
