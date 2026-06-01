@@ -3,6 +3,7 @@ package iteration2.ui.tests;
 import iteration2.ui.extensions.UiSession;
 import iteration2.ui.extensions.UserSession;
 import iteration2.ui.extensions.UserSessionExtension;
+import iteration2.ui.pages.EditProfilePage;
 import iteration2.ui.utils.UiTestData;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,14 +15,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ExtendWith(UserSessionExtension.class)
 public class ChangeProfileNameTest extends BaseUiTest {
 
+    private final EditProfilePage editProfilePage = new EditProfilePage();
+
     @Test
     public void userCanChangeProfileNameToValidNameTest(@UserSession UiSession session) {
         String expectedName = UiTestData.validProfileName();
 
         loginAsUser(session);
 
-        customerUiSteps.openEditProfilePage();
-        customerUiSteps.changeProfileName(expectedName);
+        editProfilePage
+                .open()
+                .shouldBeOpened()
+                .setProfileName(expectedName)
+                .submitProfileName();
 
         assertAlertContainsAndAccept(ResponseSpecs.PROFILE_UPDATED_UI_MESSAGE);
 
@@ -31,14 +37,19 @@ public class ChangeProfileNameTest extends BaseUiTest {
 
     @Test
     public void userCanNotChangeProfileNameWithInvalidFormatTest(@UserSession UiSession session) {
+        String invalidName = UiTestData.invalidProfileName();
         String nameBeforeUpdate = uiApiBridge.getCustomerProfile(session.getUser()).getName();
 
         loginAsUser(session);
 
-        customerUiSteps.openEditProfilePage();
-        customerUiSteps.changeProfileName(UiTestData.INVALID_PROFILE_NAME);
+        editProfilePage
+                .open()
+                .shouldBeOpened()
+                .setProfileName(invalidName)
+                .submitProfileName();
 
         assertAlertContainsAndAccept(ResponseSpecs.INVALID_PROFILE_NAME_API_MESSAGE);
+
         assertThat(uiApiBridge.getCustomerProfile(session.getUser()).getName())
                 .isEqualTo(nameBeforeUpdate);
     }

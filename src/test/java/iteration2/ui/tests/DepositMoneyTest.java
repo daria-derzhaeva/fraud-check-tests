@@ -5,6 +5,7 @@ import iteration2.ui.extensions.UserSession;
 import iteration2.ui.extensions.UserSessionExtension;
 import iteration2.ui.utils.UiTestData;
 import models.CreateAccountResponse;
+import models.TransactionType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import specs.ResponseSpecs;
@@ -43,7 +44,7 @@ public class DepositMoneyTest extends BaseUiTest {
                 .isNotEmpty();
 
         assertThat(accountsAfterDeposit[0].getTransactions().toString())
-                .contains("DEPOSIT");
+                .contains(TransactionType.DEPOSIT.name());
     }
 
     @Test
@@ -72,7 +73,7 @@ public class DepositMoneyTest extends BaseUiTest {
                 .isNotEmpty();
 
         assertThat(accountsAfterDeposit[0].getTransactions().toString())
-                .contains("DEPOSIT");
+                .contains(TransactionType.DEPOSIT.name());
     }
 
     @Test

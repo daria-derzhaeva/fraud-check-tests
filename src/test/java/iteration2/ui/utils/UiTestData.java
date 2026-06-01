@@ -25,6 +25,14 @@ public class UiTestData {
         return randomCapitalizedWord() + " " + randomCapitalizedWord();
     }
 
+    public static String invalidProfileName() {
+        return validProfileName() + randomDigit();
+    }
+
+    private static int randomDigit() {
+        return ThreadLocalRandom.current().nextInt(10);
+    }
+
     public static double randomDepositAmount() {
         return ThreadLocalRandom.current().nextInt(1, 1000);
     }

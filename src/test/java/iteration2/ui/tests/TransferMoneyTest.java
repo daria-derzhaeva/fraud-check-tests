@@ -6,6 +6,7 @@ import iteration2.ui.extensions.UserSessionExtension;
 import iteration2.ui.utils.UiTestData;
 import models.CreateAccountResponse;
 import models.CreateUserRequest;
+import models.TransactionType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import specs.ResponseSpecs;
@@ -69,10 +70,10 @@ public class TransferMoneyTest extends BaseUiTest {
                 .isNotEmpty();
 
         assertThat(senderAccountAfterTransfer.getTransactions().toString())
-                .contains("TRANSFER_OUT");
+                .contains(TransactionType.TRANSFER_OUT.name());
 
         assertThat(receiverAccountAfterTransfer.getTransactions().toString())
-                .contains("TRANSFER_IN");
+                .contains(TransactionType.TRANSFER_IN.name());
     }
 
     @Test
@@ -121,10 +122,10 @@ public class TransferMoneyTest extends BaseUiTest {
                 .isEqualTo(receiverBalanceBeforeTransfer + maxTransferAmount);
 
         assertThat(senderAccountAfterTransfer.getTransactions().toString())
-                .contains("TRANSFER_OUT");
+                .contains(TransactionType.TRANSFER_OUT.name());
 
         assertThat(receiverAccountAfterTransfer.getTransactions().toString())
-                .contains("TRANSFER_IN");
+                .contains(TransactionType.TRANSFER_IN.name());
     }
 
     @Test
